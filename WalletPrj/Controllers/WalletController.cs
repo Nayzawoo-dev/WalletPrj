@@ -34,14 +34,30 @@ namespace WalletPrj.Controllers
       ,[Balance]
       ,[Image]
   FROM [dbo].[Tbl_Wallet] Where WalletUserName = @WalletUserName and MobileNo = @MobileNo";
+            if (string.IsNullOrEmpty(requestmodel.WalletUserName))
+            {
+                TempData["isSuccess"] = false;
+                TempData["message"] = "Name is required!";
+                goto Results;
+            }
+            if (string.IsNullOrEmpty(requestmodel.MobileNo))
+            {
+                TempData["isSuccess"] = false;
+                TempData["message"] = "Mobile No is required!";
+                goto Results;
+            }
             var res = await connection.QueryFirstOrDefaultAsync<WalletModel>(query,requestmodel);
             if(res is null)
             {
                 TempData["isSuccess"] = false;
                 TempData["message"] = "Incorrect Username or Password";
-                return RedirectToAction("Index");
+                goto Results;
             }
-            return View(connection);
+            TempData["isSuccess"] = true;
+            TempData["message"] = "Successfully Login!";
+            return View("Login",res);
+        Results:
+            return RedirectToAction("Index");
         }
     }
 
