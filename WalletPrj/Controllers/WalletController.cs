@@ -32,7 +32,7 @@ namespace WalletPrj.Controllers
       ,[FullName]
       ,[MobileNo]
       ,[Balance]
-      ,[Image]
+      ,[ImagePath]
   FROM [dbo].[Tbl_Wallet] Where WalletUserName = @WalletUserName and MobileNo = @MobileNo";
             if (string.IsNullOrEmpty(requestmodel.WalletUserName))
             {
@@ -68,6 +68,6 @@ namespace WalletPrj.Controllers
         public string FullName { get; set; }
         public string MobileNo { get; set; }
         public int Balance { get; set; }
-        public string Image {  get; set; }
+        public string ImagePath {  get; set; }
     }
 }
