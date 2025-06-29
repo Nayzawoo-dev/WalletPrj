@@ -115,6 +115,15 @@ namespace WalletPrj.Controllers
         {
             requestmodel.Balance = 0;
             using IDbConnection connection = new SqlConnection(_connection.ConnectionString);
+            connection.Open();
+            string query1 = @"select * from Tbl_Wallet where WalletUserName = @WalletUserName or MobileNo = @MobileNo";
+            var result = await connection.QueryFirstOrDefaultAsync(query1,requestmodel);
+            if(result != null)
+            {
+                TempData["isSuccess"] = false;
+                TempData["message"] = "Wallet Username or Mobile No is Already Register";
+                goto Results;
+            }
             string query = @"INSERT INTO [dbo].[Tbl_Wallet]
            ([WalletUserName]
            ,[FullName]
