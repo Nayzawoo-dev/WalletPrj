@@ -73,6 +73,8 @@ namespace WalletPrj.Controllers
                 WalletId = id
             });
             connection.Close();
+            TempData["isSuccess"] = true;
+            TempData["message"] = "Update Successful!";
             return View("Edit", res);
         }
 
@@ -111,6 +113,7 @@ namespace WalletPrj.Controllers
         [ActionName("Register")]
         public async Task<IActionResult> Register(WalletModel requestmodel)
         {
+            requestmodel.Balance = 0;
             using IDbConnection connection = new SqlConnection(_connection.ConnectionString);
             string query = @"INSERT INTO [dbo].[Tbl_Wallet]
            ([WalletUserName]
@@ -124,8 +127,7 @@ namespace WalletPrj.Controllers
            ,@MobileNo
            ,@Balance
            ,@ImagePath)";
-            var res = await connection.ExecuteAsync(query, requestmodel);
-            requestmodel.Balance = 0;
+          
             if (string.IsNullOrEmpty(requestmodel.WalletUserName))
             {
                 TempData["isSuccess"] = false;
@@ -144,13 +146,20 @@ namespace WalletPrj.Controllers
                 TempData["message"] = "Full Name Is Required";
                 goto Results;
             }
-            string pattern = @"^\09\d+$";
-            if (!(requestmodel.MobileNo.Length <= 11) && !Regex.IsMatch(requestmodel.MobileNo, pattern)) 
+            string pattern = @"^(09|\+95)\d{9}$";
+            //if (!(requestmodel.MobileNo.Length <= 11) || !(requestmodel.MobileNo.Length >= 11)) 
+            //{
+            //    TempData["isSuccess"] = false;
+            //    TempData["message"] = "Invalid Mobile Number";
+            //    goto Results;
+            //}
+            if (!Regex.IsMatch(requestmodel.MobileNo, pattern))
             {
                 TempData["isSuccess"] = false;
                 TempData["message"] = "Invalid Mobile Number";
                 goto Results;
             }
+            var res = await connection.ExecuteAsync(query, requestmodel);
             if (res is 0)
             {
                 goto Results;
