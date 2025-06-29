@@ -7,7 +7,7 @@
 		<div class="col-md-6">
 			<div class="card shadow-lg">
 				<div class="card-header text-center bg-primary text-white">
-					<h3>Login Your Wallet</h3>
+					<h3>Register Your Wallet</h3>
 				</div>
 				@if (!string.IsNullOrEmpty(message))
 				{
@@ -16,19 +16,27 @@
 					</div>
 				}
 				<div class="card-body">
-					<form method="post" action="/Wallet/Login">
+					<form method="post" action="/Wallet/Register">
 						<div class="mb-3">
 							<label for="email" class="form-label">Wallet Username</label>
 							<input type="text" class="form-control" name="WalletUserName" id="WalletUserName">
 						</div>
 						<div class="mb-3">
+							<label for="email" class="form-label">Full Name</label>
+							<input type="text" class="form-control" name="FullName" id="FullName">
+						</div>
+						<div class="mb-3">
 							<label for="password" class="form-label">Mobile No</label>
 							<input type="text" class="form-control" name="MobileNo" id="MobileNo">
 						</div>
+						<div class="mb-3">
+							<label for="password" class="form-label">Profile Picture</label>
+							<input type="file" class="form-control" name="ImagePath" id="ImagePath">
+						</div>
 						<div class="d-grid gap-2">
-							<button type="submit" class="btn btn-primary">Login</button>
-							<p class="text-center">You Don't Have a Account</p>
-							<a href="/Wallet/Register" class="btn btn-outline-secondary">Register</a>
+							<button type="submit" class="btn btn-primary">Register</button>
+							@* <p class="text-center">You Don't Have a Account</p> *@
+							@* <button type="button" class="btn btn-outline-secondary">Register</button> *@
 						</div>
 					</form>
 				</div>
@@ -36,4 +44,3 @@
 		</div>
 	</div>
 </div>
-
