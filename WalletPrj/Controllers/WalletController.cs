@@ -155,7 +155,7 @@ namespace WalletPrj.Controllers
                 TempData["message"] = "Full Name Is Required";
                 goto Results;
             }
-            string pattern = @"^(09|\+95)\d{9}$";
+            string pattern = @"^(09|\+959)\d{7,9}$";
             //if (!(requestmodel.MobileNo.Length <= 11) || !(requestmodel.MobileNo.Length >= 11)) 
             //{
             //    TempData["isSuccess"] = false;
