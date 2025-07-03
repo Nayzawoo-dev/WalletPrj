@@ -73,8 +73,6 @@ namespace WalletPrj.Controllers
                 WalletId = id
             });
             connection.Close();
-            TempData["isSuccess"] = true;
-            TempData["message"] = "Update Successful!";
             return View("Edit", res);
         }
 
@@ -88,6 +86,7 @@ namespace WalletPrj.Controllers
             string query = @"UPDATE [dbo].[Tbl_Wallet]
    SET [WalletUserName] = @WalletUserName
       ,[FullName] = @FullName
+      ,[ImagePath] = @ImagePath
  WHERE WalletId = @WalletId";
             var res = await connection.ExecuteAsync(query, new WalletModel
             {
@@ -96,9 +95,14 @@ namespace WalletPrj.Controllers
                 FullName = requestmodel.FullName,
                 ImagePath = "~/images/" + requestmodel.ImagePath,
             });
-            TempData["isSuccess"] = true;
-            TempData["message"] = "Update Successful";
+           if(res is 1)
+            {
+                TempData["isSuccess"] = true;
+                TempData["message"] = "Update Successful";
+                goto Results;
+            }
             connection.Close();
+        Results:
             return RedirectToAction("Index");
         }
 
