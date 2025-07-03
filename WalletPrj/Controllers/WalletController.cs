@@ -94,12 +94,12 @@ namespace WalletPrj.Controllers
                 WalletId = id,
                 WalletUserName = requestmodel.WalletUserName,
                 FullName = requestmodel.FullName,
-                ImagePath = requestmodel.ImagePath,
+                ImagePath = "~/images/" + requestmodel.ImagePath,
             });
             TempData["isSuccess"] = true;
             TempData["message"] = "Update Successful";
             connection.Close();
-            return RedirectToAction("Login");
+            return RedirectToAction("Index");
         }
 
 
@@ -114,6 +114,7 @@ namespace WalletPrj.Controllers
         public async Task<IActionResult> Register(WalletModel requestmodel)
         {
             requestmodel.Balance = 0;
+            requestmodel.ImagePath = "~/images/" + requestmodel.ImagePath; 
             using IDbConnection connection = new SqlConnection(_connection.ConnectionString);
             connection.Open();
             string query1 = @"select * from Tbl_Wallet where WalletUserName = @WalletUserName or MobileNo = @MobileNo";
@@ -176,7 +177,7 @@ namespace WalletPrj.Controllers
             connection.Close();
             TempData["isSuccess"] = true;
             TempData["message"] = "Successfully Register";
-            return RedirectToAction("Login");
+            return RedirectToAction("Index");
         Results:
             return View("Register");
         }
